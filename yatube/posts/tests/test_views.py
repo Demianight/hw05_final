@@ -1,9 +1,8 @@
 from django.test import TestCase, Client
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.core.paginator import Page
-from time import sleep
 from django.core.cache import cache
+from time import sleep
 
 
 from .multidict import paginator_data, templates_data
