@@ -169,7 +169,11 @@ def follow_index(request):
 
 @login_required
 def profile_follow(request, username):
-    if request.user != User.objects.get(username=username):
+    does_exist = Follow.objects.filter(
+        user=request.user,
+        author=User.objects.get(username=username),
+    ).exists()
+    if request.user != User.objects.get(username=username) and not does_exist:
         Follow.objects.create(
             user=request.user,
             author=User.objects.get(username=username),
