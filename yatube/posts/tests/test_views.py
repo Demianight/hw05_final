@@ -3,14 +3,13 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.core.paginator import Page
 from time import sleep
-from ..forms import PostForm
-from ..views import posts_on_page
-from .multidict import paginator_data, templates_data
-from ..models import Post, Group
 from django.core.cache import cache
 
 
-User = get_user_model()
+from .multidict import paginator_data, templates_data
+from ..forms import PostForm
+from ..views import POSTS_ON_PAGE
+from ..models import Post, Group, User
 
 
 class ViewsTest(TestCase):
@@ -65,7 +64,7 @@ class ViewsTest(TestCase):
             with self.subTest(reverse_name=dict.reverse_name):
                 response = self.authorized_client.get(dict.reverse_name)
                 self.assertEqual(
-                    len(response.context['page_obj']), posts_on_page
+                    len(response.context['page_obj']), POSTS_ON_PAGE
                 )
 
     def test_second_page_contains_three_records(self):
