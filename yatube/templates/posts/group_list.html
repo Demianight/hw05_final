@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}
+  {{ group }}
+{% endblock %}
+
+{% block content %}
+  <h1>{% block header %}{{ group.title }}{% endblock %}</h1>
+  <h3>Описание группы: {{ group.description|linebreaks }}</h3>
+  {% for post in page_obj %}
+    <ul>
+      <li>
+        Автор: {{ post.author.get_full_name }}
+      </li>
+      <li>
+        Дата публикации: {{ post.pub_date|date:"d E Y" }}
+      </li>
+    </ul>
+    {% thumbnail post.image "1920x1080" crop="center" upscale=True as im %}
+      <img class="card-img my-2" src="{{ im.url }}">
+    {% endthumbnail %}
+    <p>
+      {{ post.text|linebreaks }}
+    </p>   
+    {% if post.group %}   
+    <p><a href="{% url 'posts:group_list' post.group.slug %}">#{{ post.group }}</a></p>
+    {% endif %}
+    <a href={% url 'posts:post_detail' post.id %}>Подробная информация</a>
+    {% if post.author.username == user.username %}
+      <a href='{% url 'posts:post_edit' post.id %}'>Редактировать</a>
+    {% endif %}
+    {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %} 
+
+  {% include 'posts/includes/paginator.html' %}
+
+{% endblock %}
