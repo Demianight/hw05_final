@@ -67,7 +67,7 @@ def post_detail(request, post_id):
     author = post.author
     total_posts = author.posts.count()
 
-    comment_form = CommentForm
+    comment_form = CommentForm()
     comments = post.comments.all()
     context = {
         'post': post,
