@@ -12,13 +12,16 @@ class FollowsTests(TestCase):
         cls.username = 'SecondUser'
         cls.user = User.objects.create(username='HasNoName')
         cls.another_user = User.objects.create(username=cls.username)
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
 
         cls.post = Post.objects.create(
             author=cls.another_user,
             text='Test text',
         )
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     def test_follow_and_unfollow(self):
         self.authorized_client.get(

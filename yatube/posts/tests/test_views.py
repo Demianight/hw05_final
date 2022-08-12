@@ -17,9 +17,6 @@ class ViewsTest(TestCase):
     def setUpClass(cls) -> None:
         super().setUpClass()
         cls.user = User.objects.create_user(username='HasNoName')
-        cls.client = Client()
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
 
         cls.group = Group.objects.create(
             title='Test Group',
@@ -45,6 +42,9 @@ class ViewsTest(TestCase):
     def setUp(self) -> None:
         super().setUp()
         cache.clear()
+        self.client = Client()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     def get_post(self, response):
         """This function checks for test post in different pages."""

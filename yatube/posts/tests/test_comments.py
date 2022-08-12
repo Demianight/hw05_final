@@ -9,14 +9,16 @@ class CommentsTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create(username='HasNoName')
-        cls.client = Client()
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
         cls.post: Post = Post.objects.create(
             author=cls.user,
             text='Test Text',
         )
         cls.new_text = 'New Comment'
+
+    def setUp(self):
+        self.client = Client()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     def test_guest_comment_fail(self):
         """Guest client post attempt failed."""

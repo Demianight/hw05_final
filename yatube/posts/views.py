@@ -39,16 +39,21 @@ def group_posts(request, slug):
 def profile(request, username):
     """View function for profile page"""
     author = get_object_or_404(User, username=username)
-    posts = Post.objects.filter(author_id=author)
+    posts = author.posts.all()
     paginator = Paginator(posts, POSTS_ON_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     total_posts = posts.count()
 
-    following = Follow.objects.filter(
+    follow_exists = Follow.objects.filter(
         author_id=author.id,
         user_id=request.user.id,
     ).exists()
+
+    if follow_exists and request.user.is_authenticated():
+        following = True
+    else:
+        following = False
 
     context = {
         'page_obj': page_obj,
@@ -161,10 +166,10 @@ def profile_follow(request, username):
         user=request.user,
         author=user,
     ).exists()
-    if request.user != User.objects.get(username=username) and not does_exist:
+    if request.user != user and not does_exist:
         Follow.objects.create(
             user=request.user,
-            author=User.objects.get(username=username),
+            author=user,
         )
     return redirect('posts:profile', username)
 

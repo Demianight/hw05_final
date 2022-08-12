@@ -13,11 +13,7 @@ class StaticURLTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.guest_client = Client()
         cls.user = User.objects.create_user(username='HasNoName')
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
-
         cls.post = Post.objects.create(
             author=cls.user,
             text='Test text',
@@ -34,6 +30,9 @@ class StaticURLTests(TestCase):
     def setUp(self) -> None:
         super().setUp()
         cache.clear()
+        self.guest_client = Client()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     def test_guest_pages(self):
         """Test response codes for guest client."""

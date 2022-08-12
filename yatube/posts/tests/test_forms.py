@@ -19,10 +19,6 @@ class PostFormTests(TestCase):
         super().setUpClass()
 
         cls.user = User.objects.create_user(username='HasNoName')
-        cls.client = Client()
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
-
         cls.group = Group.objects.create(
             title='Test group',
             slug='test_slug',
@@ -54,6 +50,9 @@ class PostFormTests(TestCase):
     def setUp(self) -> None:
         super().setUp()
         cache.clear()
+        self.client = Client()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     @classmethod
     def tearDownClass(cls):
