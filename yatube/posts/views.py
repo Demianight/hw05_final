@@ -1,11 +1,10 @@
-from django.shortcuts import redirect, render, get_object_or_404
-from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_page
 
-from .models import Post, Group, Follow, User
-from .forms import PostForm, CommentForm
-
+from .forms import CommentForm, PostForm
+from .models import Follow, Group, Post, User
 
 POSTS_ON_PAGE = 10
 

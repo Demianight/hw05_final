@@ -1,13 +1,11 @@
-from django.test import TestCase, Client
-from django.urls import reverse
-from ..models import Group, Post
-from django.contrib.auth import get_user_model
 from http import HTTPStatus as HTTP
-from .multidict import codes_data, templates_data
+
 from django.core.cache import cache
+from django.test import Client, TestCase
+from django.urls import reverse
 
-
-User = get_user_model()
+from ..models import Group, Post, User
+from .multidict import codes_data, templates_data
 
 
 class StaticURLTests(TestCase):

@@ -1,9 +1,6 @@
-from django.test import TestCase, Client
-from django.contrib.auth import get_user_model
+from django.test import Client, TestCase
 
-from ..models import Post
-
-User = get_user_model()
+from ..models import Post, User
 
 
 class CommentsTests(TestCase):

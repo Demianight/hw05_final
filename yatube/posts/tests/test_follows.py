@@ -1,10 +1,7 @@
-from django.test import TestCase, Client
-from django.contrib.auth import get_user_model
+from django.test import Client, TestCase
 from django.urls import reverse
 
-from ..models import Post, Follow
-
-User = get_user_model()
+from ..models import Follow, Post, User
 
 
 class FollowsTests(TestCase):
@@ -14,12 +11,12 @@ class FollowsTests(TestCase):
         super().setUpClass()
         cls.username = 'SecondUser'
         cls.user = User.objects.create(username='HasNoName')
-        cls.user_2 = User.objects.create(username=cls.username)
+        cls.another_user = User.objects.create(username=cls.username)
         cls.authorized_client = Client()
         cls.authorized_client.force_login(cls.user)
 
         cls.post = Post.objects.create(
-            author=cls.user_2,
+            author=cls.another_user,
             text='Test text',
         )
 
@@ -34,7 +31,7 @@ class FollowsTests(TestCase):
         )
         self.assertTrue(
             Follow.objects.filter(
-                author=self.user_2.id,
+                author=self.another_user.id,
                 user_id=self.user.id
             ).exists()
         )
@@ -50,7 +47,7 @@ class FollowsTests(TestCase):
         )
         self.assertFalse(
             Follow.objects.filter(
-                author=self.user_2.id,
+                author=self.another_user.id,
                 user_id=self.user.id
             ).exists()
         )

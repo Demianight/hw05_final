@@ -1,14 +1,14 @@
-from django.test import TestCase, Client
-from django.urls import reverse
-from django.core.paginator import Page
-from django.core.cache import cache
 from time import sleep
 
+from django.core.cache import cache
+from django.core.paginator import Page
+from django.test import Client, TestCase
+from django.urls import reverse
 
-from .multidict import paginator_data, templates_data
 from ..forms import PostForm
+from ..models import Group, Post, User
 from ..views import POSTS_ON_PAGE
-from ..models import Post, Group, User
+from .multidict import paginator_data, templates_data
 
 
 class ViewsTest(TestCase):

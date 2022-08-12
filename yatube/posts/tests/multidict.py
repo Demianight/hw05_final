@@ -1,5 +1,6 @@
-from django.urls import reverse
 from http import HTTPStatus as HTTP
+
+from django.urls import reverse
 
 
 class MultyDict:
