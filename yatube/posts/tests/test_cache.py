@@ -11,12 +11,15 @@ class CacheTests(TestCase):
     def setUpClass(cls) -> None:
         super().setUpClass()
         cls.user = User.objects.create(username='HasNoName')
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
         cls.post = Post.objects.create(
             author=cls.user,
             text='Some text',
         )
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     def test_cache_main(self):
         """Cache working test."""

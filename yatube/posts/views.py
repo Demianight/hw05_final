@@ -50,10 +50,7 @@ def profile(request, username):
         user_id=request.user.id,
     ).exists()
 
-    if follow_exists and request.user.is_authenticated():
-        following = True
-    else:
-        following = False
+    following = follow_exists and request.user.is_authenticated()
 
     context = {
         'page_obj': page_obj,

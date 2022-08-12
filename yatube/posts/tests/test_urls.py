@@ -24,7 +24,7 @@ class StaticURLTests(TestCase):
             description='Test description'
         )
         cls.edit_url = reverse('posts:post_edit', kwargs={
-            'post_id': 1
+            'post_id': cls.post.id
         })
 
     def setUp(self) -> None:
