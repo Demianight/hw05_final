@@ -50,7 +50,7 @@ def profile(request, username):
         user_id=request.user.id,
     ).exists()
 
-    following = (follow_exists and request.user.is_authenticated)
+    following = (request.user.is_authenticated and follow_exists)
 
     context = {
         'page_obj': page_obj,
